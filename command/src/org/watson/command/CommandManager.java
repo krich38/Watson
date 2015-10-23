@@ -1,6 +1,7 @@
 package org.watson.command;
 
 import org.watson.command.handler.Say;
+import org.watson.command.io.MarkovDatabaseAdapter;
 import org.watson.module.util.ClassEnumerator;
 import org.watson.protocol.IRCClient;
 import org.watson.protocol.IRCServer;
@@ -8,6 +9,7 @@ import org.watson.protocol.IRCServer;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,6 +20,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CommandManager {
     private final List<IRCClient> connections;
     private final Map<String, CommandActor> commandListeners;
+
+    public static final Random RANDOM = new Random();
 
     public CommandManager() {
         connections = new CopyOnWriteArrayList<>();
@@ -41,7 +45,7 @@ public class CommandManager {
                 return false;
             }
         }
-        return true;
+        return MarkovDatabaseAdapter.establishConnection();
     }
 
 

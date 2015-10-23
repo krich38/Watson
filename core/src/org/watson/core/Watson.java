@@ -14,6 +14,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Kyle Richards (Decisional Support System Engineer)
@@ -26,6 +27,8 @@ public class Watson {
     private List<IRCClient> CONNECTED;
     private List<ServerProperties> UNCONNECTED;
     private CommandManager commands;
+
+    public static final Random RANDOM = new Random();
 
     public static Watson getInstance() {
         return INSTANCE;
