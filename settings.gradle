@@ -1,0 +1,6 @@
+rootProject.name = 'watson'
+include 'module'
+include 'core'
+include 'protocol'
+include 'command'
+

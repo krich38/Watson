@@ -1,0 +1,9 @@
+altnick: Watson
+channels: [bot]
+ident: Wattto
+ip: irc.moparisthebest.com
+nick: Watson
+pass: yamaha
+port: 6697
+realname: Watson
+users: {users-elo.qon.aoch8u.IP: FULL_USER}
