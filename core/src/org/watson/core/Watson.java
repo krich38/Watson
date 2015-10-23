@@ -7,12 +7,11 @@ import org.watson.module.ServerProperties;
 import org.watson.module.util.ClassEnumerator;
 import org.watson.protocol.IRCClient;
 import org.watson.protocol.IRCMessageHandler;
+import org.watson.protocol.IRCServer;
 import org.watson.protocol.event.ProtocolEvent;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +48,9 @@ public class Watson {
 
     public Watson() throws FileNotFoundException {
         if (loadAndSetup()) {
-if(DatabaseAdapter.establishConnection()) {
-    connectAll();
-}
+            if (DatabaseAdapter.establishConnection()) {
+                connectAll();
+            }
 
         }
     }
@@ -70,10 +69,13 @@ if(DatabaseAdapter.establishConnection()) {
                         try {
                             IRCMessageHandler message = (IRCMessageHandler) c.newInstance();
                             client.attachMessageHandler(message);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+                    UNCONNECTED.remove(sc);
+                    CONNECTED.add(client);
                 }
             });
         }
@@ -91,5 +93,23 @@ if(DatabaseAdapter.establishConnection()) {
 
     public CommandManager getCommands() {
         return commands;
+    }
+
+    public void save() {
+
+        for (IRCClient irc : CONNECTED) {
+            ServerProperties up = irc.getConfig();
+            try {
+                Yaml yaml = new Yaml();
+                yaml.dump(up, new FileWriter("servers/" + up.file));
+                System.out.println(up.users);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public List<IRCClient> getConnected() {
+        return CONNECTED;
     }
 }

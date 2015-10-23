@@ -1,5 +1,7 @@
+!!org.watson.module.ServerProperties
 altnick: Watson
 channels: [bot]
+file: mopar.yml
 ident: Wattto
 ip: irc.moparisthebest.com
 nick: Watson

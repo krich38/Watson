@@ -74,4 +74,8 @@ public class IRCClient {
     public void sendMessage(String target, String msg) {
 
     }
+
+    public ServerProperties getConfig() {
+        return config;
+    }
 }

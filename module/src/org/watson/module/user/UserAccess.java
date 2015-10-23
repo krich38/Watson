@@ -8,8 +8,8 @@ public enum UserAccess {
     ANYONE, FULL_USER;
 
     public static UserAccess getByOrdinal(int ordinal) {
-        for(UserAccess ua : UserAccess.values()) {
-            if(ua.ordinal() == ordinal) {
+        for (UserAccess ua : UserAccess.values()) {
+            if (ua.ordinal() == ordinal) {
                 return ua;
             }
         }

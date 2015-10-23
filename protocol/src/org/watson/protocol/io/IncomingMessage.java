@@ -15,6 +15,7 @@ public class IncomingMessage {
     private String sender;
     private String message;
     private final IRCServer server;
+    private String host;
 
     public IncomingMessage(IRCServer server, String raw, String source, String command, String target, String message) {
         this.server = server;
@@ -23,6 +24,7 @@ public class IncomingMessage {
         this.command = command;
         if (command.equals("PRIVMSG")) {
             this.sender = source.substring(0, source.indexOf("!"));
+            this.host = source.substring(source.indexOf("@") + 1);
         }
         if (target != null) {
             final String[] dummy = target.split(" ", 2);
@@ -100,5 +102,9 @@ public class IncomingMessage {
 
     public String getSender() {
         return sender;
+    }
+
+    public String getHostName() {
+        return host;
     }
 }

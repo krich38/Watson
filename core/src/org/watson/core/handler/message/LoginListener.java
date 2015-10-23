@@ -1,6 +1,11 @@
 package org.watson.core.handler.message;
 
+import org.watson.core.Watson;
+import org.watson.core.handler.io.DatabaseAdapter;
+import org.watson.module.user.UserAccess;
+import org.watson.protocol.IRCClient;
 import org.watson.protocol.IRCMessageHandler;
+import org.watson.protocol.IRCServer;
 import org.watson.protocol.io.IncomingMessage;
 
 import java.util.Arrays;
@@ -22,7 +27,12 @@ public class LoginListener implements IRCMessageHandler {
                 parts = text.split(" ");
                 String user = parts[1];
                 String pass = parts[2];
-
+                UserAccess found = DatabaseAdapter.authenticateUser(user, pass);
+                if (found != UserAccess.ANYONE) {
+                    msg.getServer().getUserProperties().getUsers().put(msg.getHostName(), found);
+                    Watson.getInstance().save();
+                    msg.sendChat("Thank you for authenticating, you have been granted " + found + " access.");
+                }
             }
 
         } else {

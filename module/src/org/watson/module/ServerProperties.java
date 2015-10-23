@@ -9,6 +9,7 @@ import java.util.Map;
  * @version 1.0
  */
 public class ServerProperties {
+    public String file;
     public String ip;
     public String nick;
     public String pass;

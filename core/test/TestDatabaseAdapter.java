@@ -12,7 +12,7 @@ import javax.xml.crypto.Data;
 public class TestDatabaseAdapter {
     @Test
     public void testDatabaseAdapter() {
-        if(DatabaseAdapter.establishConnection()) {
+        if (DatabaseAdapter.establishConnection()) {
             UserAccess expected = UserAccess.FULL_USER;
             UserAccess returned = DatabaseAdapter.authenticateUser("Kyle", "yamaha38");
             Assert.assertEquals(expected, returned);

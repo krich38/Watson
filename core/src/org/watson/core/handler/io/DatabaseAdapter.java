@@ -15,7 +15,7 @@ public class DatabaseAdapter {
     public static boolean establishConnection() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:watson.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:./watson.db");
             statement = connection.createStatement();
             return true;
         } catch (ClassNotFoundException | SQLException e) {
@@ -30,10 +30,12 @@ public class DatabaseAdapter {
         UserAccess access = UserAccess.ANYONE;
         try {
             ResultSet result = statement.executeQuery("SELECT * FROM users WHERE username='" + username + "'");
-            if(result.next()) {
-                UserAccess temp = UserAccess.getByOrdinal(result.getInt("access"));
-                if(temp != null) {
-                    access = temp;
+            if (result.next()) {
+                if (result.getString("password").equals(password)) {
+                    UserAccess temp = UserAccess.getByOrdinal(result.getInt("access"));
+                    if (temp != null) {
+                        access = temp;
+                    }
                 }
             }
         } catch (SQLException e) {
