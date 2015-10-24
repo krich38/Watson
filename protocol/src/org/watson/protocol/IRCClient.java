@@ -11,8 +11,6 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 import org.watson.module.ServerProperties;
 import org.watson.protocol.event.ProtocolEvent;
 
-import java.util.Iterator;
-
 
 /**
  * @author Kyle Richards
@@ -48,10 +46,10 @@ public class IRCClient {
             @Override
             public void operationComplete(ChannelFuture chan) throws Exception {
                 System.out.println("DISCONNECT: " + chan.channel().remoteAddress());
-                //ServerProperties properties = new IRCServer(chan.channel()).getUserProperties();
-                // if (properties.doReconnect()) {
-                //connect();
-                // }
+                ServerProperties properties = new IRCServer(chan.channel()).getUserProperties();
+                if (properties.isReconnect()) {
+                    connect();
+                }
             }
         });
         connections.add(channel);

@@ -9,14 +9,17 @@ import org.watson.protocol.io.IncomingMessage;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Watson observes every message sent into the channel and extracts information
+ *          and updates the database.
  */
-public class MarkovListener implements IRCMessageHandler {
+public final class MarkovListener implements IRCMessageHandler {
 
     @Override
-    public void handle(IncomingMessage message) {
+    public final void handle(IncomingMessage message) {
         if (message.isDestChannel()) {
             MarkovDatabaseAdapter.markovLearn(message.getMessage());
-            if (CommandManager.RANDOM.nextFloat() * 100 <= Markov.Markov.REPLY_RATE) {
+            if (CommandManager.RANDOM.nextFloat() * 100 <= Markov.REPLY_RATE) {
                 String markov = MarkovDatabaseAdapter.markovGenerate();
                 if (markov != null) {
                     message.sendChat(markov);

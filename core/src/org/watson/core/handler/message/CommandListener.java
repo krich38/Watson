@@ -11,7 +11,7 @@ import org.watson.protocol.io.IncomingMessage;
  * @author Kyle Richards
  * @version 1.0
  */
-public class CommandListener implements IRCMessageHandler {
+public final class CommandListener implements IRCMessageHandler {
 
     private static final String COMMAND_PATTERN = "(\\S+?)(?:[,:]? (.+))?";
     private final CommandManager cmds;

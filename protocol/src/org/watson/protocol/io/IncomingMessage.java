@@ -5,8 +5,10 @@ import org.watson.protocol.IRCServer;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Represents every incoming message from the IRC Server
  */
-public class IncomingMessage {
+public final class IncomingMessage {
     private final String raw;
     private final String source;
     private final String command;

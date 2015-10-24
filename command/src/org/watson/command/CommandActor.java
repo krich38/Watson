@@ -9,13 +9,13 @@ import org.watson.protocol.io.IncomingMessage;
  * @version 1.0
  */
 public interface CommandActor {
-    public void handleCommand(IRCServer server, String command, IncomingMessage message);
+    void handleCommand(IRCServer server, String command, IncomingMessage message);
 
-    public String getHelp();
+    String getHelp();
 
-    public String getCommands();
+    String getCommands();
 
-    public default UserAccess getRequiredAccess() {
+    default UserAccess getRequiredAccess() {
         return UserAccess.ANYONE;
     }
 }

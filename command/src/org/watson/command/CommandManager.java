@@ -4,9 +4,7 @@ import org.watson.command.handler.Say;
 import org.watson.command.io.MarkovDatabaseAdapter;
 import org.watson.module.util.ClassEnumerator;
 import org.watson.protocol.IRCClient;
-import org.watson.protocol.IRCServer;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -16,6 +14,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Manages Watson's user controllable commands
  */
 public class CommandManager {
     private final List<IRCClient> connections;
@@ -36,6 +36,13 @@ public class CommandManager {
                 final Object o = c.newInstance();
                 if (CommandActor.class.isAssignableFrom(c)) {
                     final CommandActor command = (CommandActor) o;
+                    /*
+                     Does our command require set up?
+                     */
+                    if (InitActor.class.isAssignableFrom(c)) {
+                        InitActor init = (InitActor) o;
+                        init.init();
+                    }
                     for (String s : command.getCommands().split(",")) {
                         commandListeners.put(s, command);
                     }
@@ -55,11 +62,6 @@ public class CommandManager {
 
     public final boolean hasCommand(String command) {
         return commandListeners.containsKey(command);
-    }
-
-
-    public final Map<String, CommandActor> getCommandActors() {
-        return commandListeners;
     }
 
 }

@@ -7,19 +7,15 @@ import org.watson.module.ServerProperties;
 import org.watson.module.util.ClassEnumerator;
 import org.watson.protocol.IRCClient;
 import org.watson.protocol.IRCMessageHandler;
-import org.watson.protocol.IRCServer;
-import org.watson.protocol.event.ProtocolEvent;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
- * @author Kyle Richards (Decisional Support System Engineer)
- *         Microsoft Australia
- *         Department of Computer Science
+ * @author Kyle Richards
+ * @version 1.0
  */
 public class Watson {
 
@@ -28,7 +24,6 @@ public class Watson {
     private List<ServerProperties> UNCONNECTED;
     private CommandManager commands;
 
-    public static final Random RANDOM = new Random();
 
     public static Watson getInstance() {
         return INSTANCE;
@@ -37,7 +32,7 @@ public class Watson {
     private boolean loadAndSetup() throws FileNotFoundException {
         File[] files = new File("servers/").listFiles();
         if (files != null) {
-            UNCONNECTED = new ArrayList<ServerProperties>(files.length);
+            UNCONNECTED = new ArrayList<>(files.length);
             Yaml yaml = new Yaml();
             for (File f : files) {
                 ServerProperties server = yaml.loadAs(new FileInputStream(f), ServerProperties.class);
@@ -64,22 +59,18 @@ public class Watson {
 
             final IRCClient client = new IRCClient(sc);
             client.connect();
-            client.setOnConnected(new ProtocolEvent() {
+            client.setOnConnected(() -> {
+                for (Class c : ClassEnumerator.getClassesForPackage(CommandListener.class.getPackage())) {
+                    try {
+                        IRCMessageHandler message = (IRCMessageHandler) c.newInstance();
+                        client.attachMessageHandler(message);
 
-                @Override
-                public void handleCallBack() {
-                    for (Class c : ClassEnumerator.getClassesForPackage(CommandListener.class.getPackage())) {
-                        try {
-                            IRCMessageHandler message = (IRCMessageHandler) c.newInstance();
-                            client.attachMessageHandler(message);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    UNCONNECTED.remove(sc);
-                    CONNECTED.add(client);
                 }
+                UNCONNECTED.remove(sc);
+                CONNECTED.add(client);
             });
         }
     }
@@ -99,7 +90,6 @@ public class Watson {
     }
 
     public void save() {
-
         for (IRCClient irc : CONNECTED) {
             ServerProperties up = irc.getConfig();
             try {
@@ -110,9 +100,5 @@ public class Watson {
                 e.printStackTrace();
             }
         }
-    }
-
-    public List<IRCClient> getConnected() {
-        return CONNECTED;
     }
 }

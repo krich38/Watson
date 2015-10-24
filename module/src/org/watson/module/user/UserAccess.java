@@ -3,6 +3,10 @@ package org.watson.module.user;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          User Access control of Watson.
+ *          ANYONE = Anyone who requires no control
+ *          FULL_USER = Ability to control Watson
  */
 public enum UserAccess {
     ANYONE, FULL_USER;

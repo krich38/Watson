@@ -1,10 +1,5 @@
 package org.watson.module.util;
 
-/**
- * @author Kyle Richards
- * @version 1.0
- */
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +8,10 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * @author Kyle Richards
+ * @version 1.0
+ */
 public final class ClassEnumerator {
     private static void log(String msg) {
         System.out.println("ClassDiscovery: " + msg);
@@ -69,7 +68,7 @@ public final class ClassEnumerator {
     }
 
     public static ArrayList<Class<?>> getClassesForPackage(Package pkg) {
-        ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         String pkgname = pkg.getName();
         String relPath = pkgname.replace('.', '/');
         // Get a File object for the package

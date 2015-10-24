@@ -12,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Kyle Richards
  * @version 2.0
+ *          <p>
+ *          Ask how long Watson has been alive
  */
 public final class Uptime implements CommandActor {
     @Override

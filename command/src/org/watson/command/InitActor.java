@@ -6,5 +6,5 @@ package org.watson.command;
  */
 public interface InitActor {
 
-    public void init();
+    boolean init();
 }

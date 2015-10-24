@@ -8,6 +8,10 @@ import java.sql.*;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Watson has a connection with a database for his Markov machine learning
+ *          <p>
+ *          This is just the adapter that handles the communication
  */
 public class MarkovDatabaseAdapter {
     private static Connection connection;
