@@ -1,13 +1,12 @@
 package org.watson.core;
 
 import org.watson.command.CommandManager;
-import org.watson.protocol.io.DatabaseAdapter;
-import org.watson.command.CommandListener;
+import org.watson.core.handler.message.CommandListener;
 import org.watson.module.ServerProperties;
 import org.watson.module.util.ClassEnumerator;
 import org.watson.protocol.IRCClient;
 import org.watson.protocol.IRCMessageHandler;
-import org.watson.protocol.event.InitActor;
+import org.watson.protocol.io.DatabaseAdapter;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
@@ -23,11 +22,11 @@ public class Watson {
 
     private List<IRCClient> CONNECTED;
     private List<ServerProperties> UNCONNECTED;
-    private CommandManager commands;
-    private List<InitActor> initActors = new ArrayList<>();
+    public static final boolean LOGGING_RAW = true;
 
 
     public static Watson getInstance() {
+
         return INSTANCE;
     }
 
@@ -41,25 +40,27 @@ public class Watson {
                 UNCONNECTED.add(server);
             }
         }
-
-        commands = new CommandManager();
-        return commands.load();
+        return true;
     }
 
     public Watson() throws FileNotFoundException {
         if (DatabaseAdapter.establishConnection()) {
             if (loadAndSetup()) {
-                connectAll();
+                if (CommandManager.getCommandManager().load()) {
+                    connectAll(LOGGING_RAW);
+
+                }
             }
 
         }
     }
 
-    private void connectAll() {
+    private void connectAll(boolean logRaw) {
         CONNECTED = new ArrayList<>();
         for (ServerProperties sc : UNCONNECTED) {
 
             final IRCClient client = new IRCClient(sc);
+            client.setLogging(logRaw);
             client.connect();
             client.setOnConnected(() -> {
                 for (Class c : ClassEnumerator.getClassesForPackage(CommandListener.class.getPackage())) {
@@ -101,7 +102,4 @@ public class Watson {
         }
     }
 
-    public void addInitActor(InitActor initActor) {
-        initActors.add(initActor);
-    }
 }

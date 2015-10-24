@@ -8,20 +8,17 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.GlobalEventExecutor;
-import org.watson.protocol.event.InitActor;
 import org.watson.module.ServerProperties;
 import org.watson.protocol.event.ProtocolEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Watsons client to the server
  */
-public class IRCClient {
-
+public final class IRCClient {
     private final NioEventLoopGroup group;
     private final String IP;
     private final int PORT;
@@ -29,7 +26,7 @@ public class IRCClient {
     private ServerProperties config;
     private ProtocolEvent onConnected;
 
-    private static final List<InitActor> ON_INIT = new ArrayList<InitActor>();
+    private boolean logging;
 
     public IRCClient(ServerProperties config) {
         group = new NioEventLoopGroup(4);
@@ -42,9 +39,9 @@ public class IRCClient {
     /**
      * Establish I/O connection here
      */
-    public void connect() {
+    public final void connect() {
         final Bootstrap b = new Bootstrap();
-        b.group(group).channel(NioSocketChannel.class).handler(new IRCInitializer(this, true));
+        b.group(group).channel(NioSocketChannel.class).handler(new IRCInitializer(true));
         final ChannelFuture cf = b.connect(IP, PORT);
         final Channel channel = cf.channel();
         IRCServer.setProperties(channel, config, this);
@@ -61,26 +58,33 @@ public class IRCClient {
         connections.add(channel);
     }
 
-    public void setOnConnected(ProtocolEvent onConnected) {
+    public final void setOnConnected(ProtocolEvent onConnected) {
         this.onConnected = onConnected;
     }
 
-    public ProtocolEvent getOnConnected() {
+    public final ProtocolEvent getOnConnected() {
         return onConnected;
     }
 
-    public void attachMessageHandler(IRCMessageHandler messageHandler) {
+    public final void attachMessageHandler(IRCMessageHandler messageHandler) {
         for (Channel channel : connections) {
             ((IRCHandler) channel.pipeline().get("handler")).attachMessageHandler(messageHandler);
         }
     }
 
-    public void sendMessage(String target, String msg) {
+    public final void sendMessage(String target, String msg) {
 
     }
 
-    public ServerProperties getConfig() {
+    public final ServerProperties getConfig() {
         return config;
     }
 
+    public final void setLogging(boolean logging) {
+        this.logging = logging;
+    }
+
+    public final boolean isLogging() {
+        return logging;
+    }
 }

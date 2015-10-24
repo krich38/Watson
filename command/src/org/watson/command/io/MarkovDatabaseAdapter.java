@@ -17,9 +17,8 @@ import java.sql.*;
 public class MarkovDatabaseAdapter {
     private static Connection connection;
 
-    public static boolean establishConnection() {
+    public static boolean setup() {
         try {
-
             connection = DatabaseAdapter.getConnection();
             connection.createStatement().executeUpdate("create table if not exists markov (seed_a TEXT, seed_b TEXT, seed_c TEXT, unique(seed_a, seed_b, seed_c) on conflict ignore)");
             connection.createStatement().executeUpdate("ATTACH DATABASE ':memory:' AS mem");
@@ -29,12 +28,12 @@ public class MarkovDatabaseAdapter {
             e.printStackTrace();
 
         }
-        File f = new File("markov.db");
+        File f = new File("watson.db");
         if (f.exists()) {
             try {
                 System.out.println("Importing old markov.db... ");
                 connection.setAutoCommit(false);
-                Connection c = DriverManager.getConnection("jdbc:sqlite:markov.db");
+                Connection c = DriverManager.getConnection("jdbc:sqlite:watson.db");
                 ResultSet rs = c.createStatement().executeQuery("select seed_a, seed_b, seed_c from markov");
                 while (rs.next()) {
                     markovInsert(rs.getString(1), rs.getString(2), rs.getString(3));
@@ -44,7 +43,7 @@ public class MarkovDatabaseAdapter {
                     f.deleteOnExit();
                 }
             } catch (Exception e) {
-                System.out.println("Error importing old markov.db");
+                System.out.println("Error importing old watson.db");
                 e.printStackTrace();
             } finally {
                 try {

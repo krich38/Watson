@@ -2,36 +2,45 @@ package org.watson.command;
 
 import org.watson.command.handler.Say;
 import org.watson.command.io.MarkovDatabaseAdapter;
-import org.watson.protocol.event.InitActor;
 import org.watson.module.util.ClassEnumerator;
-import org.watson.protocol.IRCClient;
+import org.watson.protocol.event.InitActor;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author Kyle Richards
  * @version 1.0
  *          <p>
  *          Manages Watson's user controllable commands
+ *          Just a basic Singleton design
  */
 public class CommandManager {
-    private final List<IRCClient> connections;
+
+    private static CommandManager INSTANCE;
     private final Map<String, CommandActor> commandListeners;
 
     public static final Random RANDOM = new Random();
 
     public CommandManager() {
-        connections = new CopyOnWriteArrayList<>();
-        commandListeners = new ConcurrentHashMap<>();
 
+        commandListeners = new ConcurrentHashMap<>();
+        if (!MarkovDatabaseAdapter.setup()) {
+            // oh no
+        }
 
     }
 
+    public static CommandManager getCommandManager() {
+        if (INSTANCE == null) {
+            INSTANCE = new CommandManager();
+        }
+        return INSTANCE;
+    }
+
     public boolean load() {
+        commandListeners.clear();
         for (Class c : ClassEnumerator.getClassesForPackage(Say.class.getPackage())) {
             try {
                 final Object o = c.newInstance();
@@ -42,7 +51,7 @@ public class CommandManager {
                      */
                     if (InitActor.class.isAssignableFrom(c)) {
                         InitActor init = (InitActor) o;
-                        //init.init();
+                        init.init();
                     }
                     for (String s : command.getCommands().split(",")) {
                         commandListeners.put(s, command);
@@ -53,7 +62,7 @@ public class CommandManager {
                 return false;
             }
         }
-        return MarkovDatabaseAdapter.establishConnection();
+        return true;
     }
 
 
@@ -65,4 +74,7 @@ public class CommandManager {
         return commandListeners.containsKey(command);
     }
 
+    public Map<String, CommandActor> getCommandListeners() {
+        return commandListeners;
+    }
 }

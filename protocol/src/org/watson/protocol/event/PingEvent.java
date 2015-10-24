@@ -6,6 +6,8 @@ import org.watson.protocol.io.IncomingMessage;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Just handle the ping and pong
  */
 public class PingEvent implements IRCMessageHandler {
     @Override

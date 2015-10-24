@@ -7,6 +7,8 @@ import org.watson.protocol.io.IncomingMessage;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Look for when we are connected
  */
 public class ConnectionEvent implements IRCMessageHandler {
     @Override

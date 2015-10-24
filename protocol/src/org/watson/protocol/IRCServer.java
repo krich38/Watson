@@ -3,17 +3,15 @@ package org.watson.protocol;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.watson.module.ServerProperties;
-import org.yaml.snakeyaml.Yaml;
-
-import java.io.FileWriter;
-import java.io.IOException;
 
 
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Represents a server that Watson is connected to
  */
-public class IRCServer {
+public final class IRCServer {
     private static final AttributeKey<ServerProperties> USERPROPS_ATTR = AttributeKey.valueOf("UserProperties.attr");
     private static final AttributeKey<IRCClient> CLIENT_ATTR = AttributeKey.valueOf("IRClient.attr");
     public static final int MAX_LENGTH = 500;
@@ -41,7 +39,11 @@ public class IRCServer {
         return channel.attr(USERPROPS_ATTR).get();
     }
 
-    public void sendMessage(String target, String msg) {
+    public final void sendMessage(String target, String msg) {
         getChannel().writeAndFlush("PRIVMSG " + target + " :" + msg);
+    }
+
+    public final void write(String text) {
+        channel.writeAndFlush(text);
     }
 }

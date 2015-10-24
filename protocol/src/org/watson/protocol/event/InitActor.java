@@ -14,7 +14,7 @@ public abstract class InitActor implements ProtocolEvent {
         init();
     }
 
-    protected abstract void init();
+    public abstract void init();
 
     public InitActor(IRCServer server) {
 

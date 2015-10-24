@@ -9,6 +9,8 @@ import org.watson.protocol.io.IncomingMessage;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          To login to user control on Watson.
  */
 public final class LoginListener implements IRCMessageHandler {
     @Override

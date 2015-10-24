@@ -1,5 +1,7 @@
-package org.watson.command;
+package org.watson.core.handler.message;
 
+import org.watson.command.CommandActor;
+import org.watson.command.CommandManager;
 import org.watson.module.user.UserAccess;
 import org.watson.protocol.IRCMessageHandler;
 import org.watson.protocol.io.IncomingMessage;
@@ -7,6 +9,8 @@ import org.watson.protocol.io.IncomingMessage;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Listens on the chat for user controls
  */
 public final class CommandListener implements IRCMessageHandler {
 
@@ -14,10 +18,7 @@ public final class CommandListener implements IRCMessageHandler {
     private final CommandManager cmds;
 
     public CommandListener() {
-        cmds = new CommandManager();
-        if (!cmds.load()) {
-
-        }
+        cmds = CommandManager.getCommandManager();
     }
 
     @Override

@@ -7,6 +7,8 @@ import java.sql.*;
 /**
  * @author Kyle Richards
  * @version 1.0
+ *          <p>
+ *          Our database connection. Just a basic front end to the sqlite database
  */
 public class DatabaseAdapter {
     private static Connection connection;

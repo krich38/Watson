@@ -25,13 +25,11 @@ import java.util.List;
  * @version 2.0
  */
 public final class IRCInitializer extends ChannelInitializer<SocketChannel> {
-    private final IRCClient client;
     private final boolean isSSL;
     private static final StringDecoder STRING_DECODER = new StringDecoder();
     private static final StringEncoder STRING_ENCODER = new StringEncoder();
 
-    public IRCInitializer(IRCClient client, boolean isSSL) {
-        this.client = client;
+    public IRCInitializer(boolean isSSL) {
         this.isSSL = isSSL;
     }
 

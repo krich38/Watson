@@ -47,7 +47,9 @@ public class IRCHandler extends SimpleChannelInboundHandler<String> {
                 handler.handle(message);
             }
         }
-        System.out.println(message.getRaw());
+        if (message.getServer().getIrcClient().isLogging()) {
+            System.out.println(message.getRaw());
+        }
     }
 
     @Override

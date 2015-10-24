@@ -7,9 +7,9 @@ import org.watson.protocol.io.IncomingMessage;
  * @version 1.0
  */
 public interface IRCMessageHandler {
-    public void handle(IncomingMessage msg);
+    void handle(IncomingMessage msg);
 
-    public default boolean shouldHandle(IncomingMessage msg) {
+    default boolean shouldHandle(IncomingMessage msg) {
         return true;
     }
 }
