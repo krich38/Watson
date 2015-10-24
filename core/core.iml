@@ -21,7 +21,7 @@
     <orderEntry type="module" module-name="module" />
     <orderEntry type="module" module-name="protocol" />
     <orderEntry type="library" name="org.yaml:snakeyaml:1.15" level="project" />
-    <orderEntry type="module" module-name="command" />
     <orderEntry type="library" name="org.xerial:sqlite-jdbc:3.8.7" level="project" />
+    <orderEntry type="module" module-name="command" />
   </component>
 </module>

@@ -1,9 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
-import org.watson.core.handler.io.DatabaseAdapter;
+import org.watson.protocol.io.DatabaseAdapter;
 import org.watson.module.user.UserAccess;
-
-import javax.xml.crypto.Data;
 
 /**
  * @author Kyle Richards

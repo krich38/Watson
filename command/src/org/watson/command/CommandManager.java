@@ -2,6 +2,7 @@ package org.watson.command;
 
 import org.watson.command.handler.Say;
 import org.watson.command.io.MarkovDatabaseAdapter;
+import org.watson.protocol.event.InitActor;
 import org.watson.module.util.ClassEnumerator;
 import org.watson.protocol.IRCClient;
 
@@ -26,7 +27,7 @@ public class CommandManager {
     public CommandManager() {
         connections = new CopyOnWriteArrayList<>();
         commandListeners = new ConcurrentHashMap<>();
-        commandListeners.clear();
+
 
     }
 
@@ -41,7 +42,7 @@ public class CommandManager {
                      */
                     if (InitActor.class.isAssignableFrom(c)) {
                         InitActor init = (InitActor) o;
-                        init.init();
+                        //init.init();
                     }
                     for (String s : command.getCommands().split(",")) {
                         commandListeners.put(s, command);

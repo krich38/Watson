@@ -1,8 +1,5 @@
-package org.watson.core.handler.message;
+package org.watson.command;
 
-import org.watson.core.Watson;
-import org.watson.command.CommandActor;
-import org.watson.command.CommandManager;
 import org.watson.module.user.UserAccess;
 import org.watson.protocol.IRCMessageHandler;
 import org.watson.protocol.io.IncomingMessage;
@@ -17,7 +14,10 @@ public final class CommandListener implements IRCMessageHandler {
     private final CommandManager cmds;
 
     public CommandListener() {
-        cmds = Watson.getInstance().getCommands();
+        cmds = new CommandManager();
+        if (!cmds.load()) {
+
+        }
     }
 
     @Override

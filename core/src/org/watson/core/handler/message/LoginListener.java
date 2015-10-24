@@ -1,7 +1,7 @@
 package org.watson.core.handler.message;
 
 import org.watson.core.Watson;
-import org.watson.core.handler.io.DatabaseAdapter;
+import org.watson.protocol.io.DatabaseAdapter;
 import org.watson.module.user.UserAccess;
 import org.watson.protocol.IRCMessageHandler;
 import org.watson.protocol.io.IncomingMessage;

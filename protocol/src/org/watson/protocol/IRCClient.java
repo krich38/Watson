@@ -8,8 +8,12 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.watson.protocol.event.InitActor;
 import org.watson.module.ServerProperties;
 import org.watson.protocol.event.ProtocolEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,6 +28,8 @@ public class IRCClient {
     private final DefaultChannelGroup connections;
     private ServerProperties config;
     private ProtocolEvent onConnected;
+
+    private static final List<InitActor> ON_INIT = new ArrayList<InitActor>();
 
     public IRCClient(ServerProperties config) {
         group = new NioEventLoopGroup(4);
@@ -76,4 +82,5 @@ public class IRCClient {
     public ServerProperties getConfig() {
         return config;
     }
+
 }

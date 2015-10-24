@@ -1,6 +1,7 @@
 package org.watson.command.io;
 
 import org.watson.command.CommandManager;
+import org.watson.protocol.io.DatabaseAdapter;
 
 import java.io.File;
 import java.sql.*;
@@ -18,8 +19,8 @@ public class MarkovDatabaseAdapter {
 
     public static boolean establishConnection() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:./markov.db");
+
+            connection = DatabaseAdapter.getConnection();
             connection.createStatement().executeUpdate("create table if not exists markov (seed_a TEXT, seed_b TEXT, seed_c TEXT, unique(seed_a, seed_b, seed_c) on conflict ignore)");
             connection.createStatement().executeUpdate("ATTACH DATABASE ':memory:' AS mem");
             connection.createStatement().executeUpdate("create table if not exists mem.markov (seed_a TEXT, seed_b TEXT, seed_c TEXT, unique(seed_a, seed_b, seed_c) on conflict ignore)");

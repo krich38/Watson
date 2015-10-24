@@ -2,7 +2,6 @@ package org.watson.command.handler;
 
 import org.watson.command.CommandActor;
 import org.watson.command.CommandManager;
-import org.watson.command.InitActor;
 import org.watson.command.io.MarkovDatabaseAdapter;
 import org.watson.module.user.UserAccess;
 import org.watson.protocol.IRCServer;
@@ -19,7 +18,7 @@ import java.util.regex.Pattern;
  *          <p>
  *          He will randomly say something, and respond to being asked to talk about something
  */
-public final class Markov implements CommandActor, InitActor {
+public final class Markov implements CommandActor {
 
 
     private static final Pattern COMMAND_PATTERN = Pattern.compile("(\\S+):?\\s*(\\S+)?(?: (\\S+))?", Pattern.CASE_INSENSITIVE);
@@ -98,8 +97,4 @@ public final class Markov implements CommandActor, InitActor {
         return min;
     }
 
-    @Override
-    public boolean init() {
-        return false;
-    }
 }

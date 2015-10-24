@@ -1,12 +1,13 @@
 package org.watson.core;
 
 import org.watson.command.CommandManager;
-import org.watson.core.handler.io.DatabaseAdapter;
-import org.watson.core.handler.message.CommandListener;
+import org.watson.protocol.io.DatabaseAdapter;
+import org.watson.command.CommandListener;
 import org.watson.module.ServerProperties;
 import org.watson.module.util.ClassEnumerator;
 import org.watson.protocol.IRCClient;
 import org.watson.protocol.IRCMessageHandler;
+import org.watson.protocol.event.InitActor;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
@@ -23,6 +24,7 @@ public class Watson {
     private List<IRCClient> CONNECTED;
     private List<ServerProperties> UNCONNECTED;
     private CommandManager commands;
+    private List<InitActor> initActors = new ArrayList<>();
 
 
     public static Watson getInstance() {
@@ -45,8 +47,8 @@ public class Watson {
     }
 
     public Watson() throws FileNotFoundException {
-        if (loadAndSetup()) {
-            if (DatabaseAdapter.establishConnection()) {
+        if (DatabaseAdapter.establishConnection()) {
+            if (loadAndSetup()) {
                 connectAll();
             }
 
@@ -85,9 +87,6 @@ public class Watson {
         }
     }
 
-    public CommandManager getCommands() {
-        return commands;
-    }
 
     public void save() {
         for (IRCClient irc : CONNECTED) {
@@ -100,5 +99,9 @@ public class Watson {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void addInitActor(InitActor initActor) {
+        initActors.add(initActor);
     }
 }

@@ -1,4 +1,4 @@
-package org.watson.core.handler.io;
+package org.watson.protocol.io;
 
 import org.watson.module.user.UserAccess;
 
@@ -42,5 +42,9 @@ public class DatabaseAdapter {
             e.printStackTrace();
         }
         return access;
+    }
+
+    public static Connection getConnection() {
+        return connection;
     }
 }

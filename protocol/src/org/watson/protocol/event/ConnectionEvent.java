@@ -19,6 +19,7 @@ public class ConnectionEvent implements IRCMessageHandler {
             server.getChannel().writeAndFlush("PRIVMSG NICKSERV :IDENTIFY " + msg.getServer().getUserProperties().getPassword());
 
             msg.getServer().getIrcClient().getOnConnected().handleCallBack();
+
         } else if (msg.getRaw().contains("No more connections allowed from your host via this connect class")) {
             msg.getServer().getUserProperties().setDoReconnect(false);
         }
