@@ -2,8 +2,8 @@ Watson
 ===================
 Watson is a machine learning IRC automated system. He is a project designed to utilize most languages, and so far his implementation has been completed in the following languages;
 
- - Java (click [here](https://github.com/krich38/Watson))
- - C# (click [here](https://github.com/krich38/watsonsh))
+ - Java (click [here](https://github.com/krich38/Watson-Java))
+ - C# (click [here](https://github.com/krich38/Watson-CSharp))
 
 **Features**
 
