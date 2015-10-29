@@ -7,6 +7,8 @@ import org.watson.protocol.event.InitActor;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -22,10 +24,12 @@ public class CommandManager {
     private final Map<String, CommandActor> commandListeners;
 
     public static final Random RANDOM = new Random();
+    private final Timer timer;
 
     public CommandManager() {
 
         commandListeners = new ConcurrentHashMap<>();
+        timer = new Timer();
         if (!MarkovDatabaseAdapter.setup()) {
             // oh no
         }
@@ -76,5 +80,10 @@ public class CommandManager {
 
     public Map<String, CommandActor> getCommandListeners() {
         return commandListeners;
+    }
+
+    public void schedule(TimerTask task, int delay, int period) {
+        timer.schedule(task, delay, period);
+
     }
 }

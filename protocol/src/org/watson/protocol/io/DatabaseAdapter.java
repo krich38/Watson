@@ -46,6 +46,14 @@ public class DatabaseAdapter {
         return access;
     }
 
+    public static void executeUpdate(String sql) {
+        try {
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Connection getConnection() {
         return connection;
     }

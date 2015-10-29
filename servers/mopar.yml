@@ -1,10 +1,10 @@
 !!org.watson.module.ServerProperties
 altnick: Watson
-channels: [bot, triumvirate]
+channels: [bottest]
 file: mopar.yml
 ident: Wattto
 ip: irc.moparisthebest.com
-nick: Watson
+nick: Watsn
 pass: yamaha
 port: 6697
 realname: Watson
